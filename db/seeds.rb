@@ -1,7 +1,20 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+# UserGroup.destroy_all
+# User.destroy_all
+# Event.destroy_all
+# Group.destroy_all
+
+puts "Creating users"
+u = User.create!(spotify_id: "1234", access_token: "", refresh_token: "")
+puts "Done creating users"
+
+puts "Creating groups"
+g = Group.create!(name: "Cool Group")
+puts "Done creating users"
+
+puts "Creating user groups"
+UserGroup.create!(user_id: u.id, group_id: g.id)
+puts "Done creating user groups"
+
+puts "Creating events"
+Event.create!(group_id: g.id, playlist_id: "3qBswSHe4Hhjux8tpB4qGE", name: "Cool Event", description: "This is a cool event")
+puts "Done creating events"
