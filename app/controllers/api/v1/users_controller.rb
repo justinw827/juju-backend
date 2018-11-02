@@ -32,12 +32,9 @@ class Api::V1::UsersController < ApplicationController
 
     UserGroup.find_or_create_by(group_id: 1, user_id: @user.id)
 
-    render json: { user: UserSerializer.new(@user)}, status: :accepted
-  end
+    spotify_id = @user.spotify_id
+    url = "http://localhost:3001/events/s=#{spotify_id}"
 
-  # private
-  #
-  # def user_params
-  #   params.require(:user).permit(:spotify_id)
-  # end
+    redirect_to url
+  end
 end
