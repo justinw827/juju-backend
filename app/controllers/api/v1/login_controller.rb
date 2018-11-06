@@ -10,6 +10,7 @@ class Api::V1::LoginController < ApplicationController
 
     url = "https://accounts.spotify.com/authorize/"
 
+
     redirect_to "#{url}?#{query_params.to_query}"
   end
 end
