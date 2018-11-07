@@ -11,7 +11,7 @@ class Api::V1::EventsController < ApplicationController
       "public": true
     }
 
-    access_token = "BQCZzEzxQvGhN4jG7NGVYU38pC0SJqCTJqxscleVD-GwTaYdz6ofXHaLIWx3IC_J3D7qYjwOrCkLS6k13cRz7CbiywEwY_-RXy5mJ1dtHIKB094Hti36JCv06RnL5V_7nsvFTJN_sJfGbjnUCvhoVBTJwR4Em_kFB1wacyiEMC9nrZ3QTUqqBT9PrQ9uWmVr8Is4y15_uKoCKaOP7BWlE1CEQusV8qB4OJk1vLOGAjnUi-y4vB0hJIdggf15a63T1pQ9aPbhzXNj1qTZCKQ"
+    access_token = "BQARiPk7fm30-ZRHAhBOwohG0HW6J__WcL4Ht8TTbLAsuEsWEaFcDBxZLJ_Zynl0fHldZ3vXILWc_DVihY_-MnpXzCF2gljoLblCIVpie97GSf-qIsdGlhb0HD7gI9-d86mcjqx_g_Buc9n-ckPMXn3aXngRH6M3gvh_NJ3NyJUfdtsoXfIrEjCtxFJ4dc6ehJZnlfvH0_5D6lQVas0XpT4t3XWy8YaIeLA4C4SZ7rx8BMWNyu82-_UZbPFeqLuazBSbNHNrSl5Gwi8SUPI"
 
     postHeaders = {
       content_type: :json,
@@ -47,7 +47,7 @@ class Api::V1::EventsController < ApplicationController
   def add_song
     @party = Event.find(params[:id])
 
-    access_token = "BQCvje5QQ4ifzp0c2phn2CAKEXseVCwjq0f2n3idYJ6hVtGgCoBWg2RBNjdVsaQFaIBYlYIe0RNsjeL1qTWKzUaH8NP38nphWpni8EDkJAFNeA3w31DPkjPk47Uc8rHQpej70KAUSTQKGQpYIk5uXAuMa24OFfrbb0qBe7DjX7yhyjv-GU-vxzAZT53jCGOjuSJFaNyBC2uvzQus4p6TE-FonURcxGtu2lWHHE0nt6IM2EsGGWlF45k7tkAgyL1b2ABpZ2mJLPFq8LD3f7I"
+    access_token = "BQARiPk7fm30-ZRHAhBOwohG0HW6J__WcL4Ht8TTbLAsuEsWEaFcDBxZLJ_Zynl0fHldZ3vXILWc_DVihY_-MnpXzCF2gljoLblCIVpie97GSf-qIsdGlhb0HD7gI9-d86mcjqx_g_Buc9n-ckPMXn3aXngRH6M3gvh_NJ3NyJUfdtsoXfIrEjCtxFJ4dc6ehJZnlfvH0_5D6lQVas0XpT4t3XWy8YaIeLA4C4SZ7rx8BMWNyu82-_UZbPFeqLuazBSbNHNrSl5Gwi8SUPI"
 
     header = {
       Authorization: "Bearer #{access_token}"

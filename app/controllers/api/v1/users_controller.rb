@@ -1,7 +1,6 @@
 class Api::V1::UsersController < ApplicationController
   def create
     # If Spotify returns an error for login, redirect to homepage
-    byebug
     if params[:error]
       puts "LOGIN ERROR", params
       redirect_to "http://localhost:3001/"

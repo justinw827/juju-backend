@@ -25,7 +25,7 @@ class Api::V1::SpotifyApiController < ApplicationController
     # auth_params["access_token"]
 
     # Change to auth_params when login works again
-    access_token = "BQCvje5QQ4ifzp0c2phn2CAKEXseVCwjq0f2n3idYJ6hVtGgCoBWg2RBNjdVsaQFaIBYlYIe0RNsjeL1qTWKzUaH8NP38nphWpni8EDkJAFNeA3w31DPkjPk47Uc8rHQpej70KAUSTQKGQpYIk5uXAuMa24OFfrbb0qBe7DjX7yhyjv-GU-vxzAZT53jCGOjuSJFaNyBC2uvzQus4p6TE-FonURcxGtu2lWHHE0nt6IM2EsGGWlF45k7tkAgyL1b2ABpZ2mJLPFq8LD3f7I"
+    access_token = "BQARiPk7fm30-ZRHAhBOwohG0HW6J__WcL4Ht8TTbLAsuEsWEaFcDBxZLJ_Zynl0fHldZ3vXILWc_DVihY_-MnpXzCF2gljoLblCIVpie97GSf-qIsdGlhb0HD7gI9-d86mcjqx_g_Buc9n-ckPMXn3aXngRH6M3gvh_NJ3NyJUfdtsoXfIrEjCtxFJ4dc6ehJZnlfvH0_5D6lQVas0XpT4t3XWy8YaIeLA4C4SZ7rx8BMWNyu82-_UZbPFeqLuazBSbNHNrSl5Gwi8SUPI"
 
     header = {
       Authorization: "Bearer #{access_token}"
