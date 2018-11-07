@@ -8,6 +8,8 @@ Rails.application.routes.draw do
       get '/events', to: 'events#get_all_events'
       post '/search', to: 'spotify_api#search'
       post '/events/:id', to: 'events#add_song'
+      post '/party/search', to: 'events#search'
+      post '/party/add-user', to: 'events#add_user'
 
     end
   end

@@ -11,10 +11,12 @@ class Api::V1::EventsController < ApplicationController
       "public": true
     }
 
+    access_token = "BQCZzEzxQvGhN4jG7NGVYU38pC0SJqCTJqxscleVD-GwTaYdz6ofXHaLIWx3IC_J3D7qYjwOrCkLS6k13cRz7CbiywEwY_-RXy5mJ1dtHIKB094Hti36JCv06RnL5V_7nsvFTJN_sJfGbjnUCvhoVBTJwR4Em_kFB1wacyiEMC9nrZ3QTUqqBT9PrQ9uWmVr8Is4y15_uKoCKaOP7BWlE1CEQusV8qB4OJk1vLOGAjnUi-y4vB0hJIdggf15a63T1pQ9aPbhzXNj1qTZCKQ"
+
     postHeaders = {
       content_type: :json,
       accept: :json,
-      Authorization: "Bearer #{user.access_token}"
+      Authorization: "Bearer #{access_token}"
     }
 
     # Temporary hard coded playlist id
@@ -22,7 +24,7 @@ class Api::V1::EventsController < ApplicationController
 
     UserEvent.create!(user_id: user.id, event_id: new_event.id)
 
-    # spotify_response = RestClient.post('https://api.spotify.com/v1/playlists', postBody.to_json, headers=postHeaders)
+    spotify_response = RestClient.post('https://api.spotify.com/v1/playlists', postBody.to_json, headers=postHeaders)
     render json: { event: EventSerializer.new(new_event) }, status: :ok
   end
 
@@ -45,7 +47,7 @@ class Api::V1::EventsController < ApplicationController
   def add_song
     @party = Event.find(params[:id])
 
-    access_token = "BQCatGEW_BOpQstkgY2iU_2iIfUxpag1ZO4ABQqjqcbL7HWdjVOw8W3i681yb96TIm5hq5SPEo0K16iGAiwcMKUOcB_Xr-bXleDeHxcs8NYbg9t4hIQe4e8GnND5AP5HNR57gOKmCirmTLcVPJ72zszjFtFK4bjXN6o529fSJlPMjlOTU6tNtTvKbUUeyAqHXH2LHFGLsmQ-0E9yqmoyQwakUwl10RNPfjiHdVC0ZIG2cnnlDrGXRnxLSEfWHQpnNkWs2qrqOAifLRDNURc"
+    access_token = "BQCvje5QQ4ifzp0c2phn2CAKEXseVCwjq0f2n3idYJ6hVtGgCoBWg2RBNjdVsaQFaIBYlYIe0RNsjeL1qTWKzUaH8NP38nphWpni8EDkJAFNeA3w31DPkjPk47Uc8rHQpej70KAUSTQKGQpYIk5uXAuMa24OFfrbb0qBe7DjX7yhyjv-GU-vxzAZT53jCGOjuSJFaNyBC2uvzQus4p6TE-FonURcxGtu2lWHHE0nt6IM2EsGGWlF45k7tkAgyL1b2ABpZ2mJLPFq8LD3f7I"
 
     header = {
       Authorization: "Bearer #{access_token}"
@@ -59,4 +61,22 @@ class Api::V1::EventsController < ApplicationController
 
     render json: @party, status: :ok
   end
+
+  def search
+    @events = Event.where("name like ?", "%#{params["search_term"]}%")
+
+    @serializedEvents = @events.map do |event|
+      EventSerializer.new(event)
+    end
+
+    render json: @serializedEvents, status: :ok
+  end
+
+  def add_user
+    @user = User.find_by(spotify_id: params["spotify_id"])
+    UserEvent.find_or_create_by!(user_id: @user.id, event_id: params["party_id"])
+    @party = Event.find(params["party_id"])
+    render json: { party: EventSerializer.new(@party) }, status: :ok
+  end
+
 end

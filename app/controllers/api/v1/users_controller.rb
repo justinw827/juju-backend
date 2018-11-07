@@ -15,8 +15,10 @@ class Api::V1::UsersController < ApplicationController
         client_secret: Rails.application.credentials.spotify[:client_secret]
       }
 
+      # Ask spotify for token
       auth_response = RestClient.post('https://accounts.spotify.com/api/token', body)
 
+      # Parse out token to JSON
       auth_params = JSON.parse(auth_response.body)
     end
 
