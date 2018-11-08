@@ -58,13 +58,18 @@ class Api::V1::EventsController < ApplicationController
 
   def add_song
 
-    @user = User.find_by(spotify_id: params["spotify_id"])
+    # Get the active party of the user
+    @party = Event.find(params[:id])
+    playlist_id = @party.playlist_id
+    # playlist_id = "0oGyb8ShBfcdkTkcAtv8uA"
+
+    @user = User.find_by(id: @party.host_id)
 
     # Check if user's access token needs to be refreshed
     Api::V1::SpotifyApiController.refresh_token(@user)
 
-    # access_token = @user.access_token
-    access_token = "BQB6k1XuejH_JgPoksvOrAiLOZ-weiHSvU0eyZhJUQKUEau6Us5qHALcwXdbR8USxCF2AucLnIWPe-6dWO2sKreIsylDP_KUDqG26LesfbPRjzrdtc_NtlET5j2-mDeMQby6qGAZVTQyfN5lTO8SyNbGO-Pu6VvbJG2DDHgoUrVrdHJvM9lkeLuhJnY1cdtgQOg-p-cgU5ET3M4ufLmUVsU5MYhdExkvH4HFtFFUX_9KyjadcKwTt9Lw5sk-ce2KpWOCINFxz7dblTHiklQ"
+    access_token = @user.access_token
+    # access_token = "BQB6k1XuejH_JgPoksvOrAiLOZ-weiHSvU0eyZhJUQKUEau6Us5qHALcwXdbR8USxCF2AucLnIWPe-6dWO2sKreIsylDP_KUDqG26LesfbPRjzrdtc_NtlET5j2-mDeMQby6qGAZVTQyfN5lTO8SyNbGO-Pu6VvbJG2DDHgoUrVrdHJvM9lkeLuhJnY1cdtgQOg-p-cgU5ET3M4ufLmUVsU5MYhdExkvH4HFtFFUX_9KyjadcKwTt9Lw5sk-ce2KpWOCINFxz7dblTHiklQ"
 
     header = {
       Authorization: "Bearer #{access_token}"
@@ -75,16 +80,11 @@ class Api::V1::EventsController < ApplicationController
       uris: params["url"]
     }
 
-    # Get the active party of the user
-    @party = Event.find(params[:id])
-    playlist_id = @party.playlist_id
-    # playlist_id = "0oGyb8ShBfcdkTkcAtv8uA"
+
 
     endpoint = "https://api.spotify.com/v1/playlists/#{playlist_id}/tracks?#{url.to_query}"
 
     return_status = :ok
-
-    byebug
 
     begin
       post_response = RestClient.post(endpoint, {}, header)
