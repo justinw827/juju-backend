@@ -19,10 +19,10 @@ UserGroup.create!(user_id: User.all.sample.id, group_id: g.id)
 puts "Done creating user groups"
 
 puts "Creating events"
-Event.create!(group_id: g.id, playlist_id: "3qBswSHe4Hhjux8tpB4qGE", name: "Cool Event", description: "This is a cool event")
-Event.create!(group_id: g.id, playlist_id: "3qBswSHe4Hhjux8tpB4qGE", name: "Cool Event 2", description: "This is a cool event 2")
-Event.create!(group_id: g.id, playlist_id: "3qBswSHe4Hhjux8tpB4qGE", name: "Cool Event 3", description: "This is a cool event 3")
-Event.create!(group_id: g.id, playlist_id: "3qBswSHe4Hhjux8tpB4qGE", name: "Cool Event 4", description: "This is a cool event 4")
+Event.create!(group_id: g.id, host_id: User.all.sample.id, playlist_id: "3qBswSHe4Hhjux8tpB4qGE", name: "Cool Event", description: "This is a cool event")
+Event.create!(group_id: g.id, host_id: User.all.sample.id, playlist_id: "3qBswSHe4Hhjux8tpB4qGE", name: "Cool Event 2", description: "This is a cool event 2")
+Event.create!(group_id: g.id, host_id: User.all.sample.id, playlist_id: "3qBswSHe4Hhjux8tpB4qGE", name: "Cool Event 3", description: "This is a cool event 3")
+Event.create!(group_id: g.id, host_id: User.all.sample.id, playlist_id: "3qBswSHe4Hhjux8tpB4qGE", name: "Cool Event 4", description: "This is a cool event 4")
 puts "Done creating events"
 
 puts "Creating user events"

@@ -22,13 +22,12 @@ class Api::V1::SpotifyApiController < ApplicationController
   end
 
   def search
-    # auth_params["access_token"]
+    @user = User.find_by(spotify_id: params["spotify_id"])
 
-    # Change to auth_params when login works again
-    access_token = "BQARiPk7fm30-ZRHAhBOwohG0HW6J__WcL4Ht8TTbLAsuEsWEaFcDBxZLJ_Zynl0fHldZ3vXILWc_DVihY_-MnpXzCF2gljoLblCIVpie97GSf-qIsdGlhb0HD7gI9-d86mcjqx_g_Buc9n-ckPMXn3aXngRH6M3gvh_NJ3NyJUfdtsoXfIrEjCtxFJ4dc6ehJZnlfvH0_5D6lQVas0XpT4t3XWy8YaIeLA4C4SZ7rx8BMWNyu82-_UZbPFeqLuazBSbNHNrSl5Gwi8SUPI"
+    self.class.refresh_token(@user)
 
     header = {
-      Authorization: "Bearer #{access_token}"
+      Authorization: "Bearer #{@user["access_token"]}"
     }
 
     search_response = RestClient.get("https://api.spotify.com/v1/search?q=#{params["search_term"]}&type=track", header)

@@ -2,30 +2,42 @@ class Api::V1::EventsController < ApplicationController
   def create
     user = User.find_by(spotify_id: params[:spotify_id])
 
-    event_name = params["event_name"]
-    event_description = params["event_description"]
 
-    postBody = {
-      "name": event_name,
-      "description": event_description,
-      "public": true
-    }
+    # Check user token is valid
+    Api::V1::SpotifyApiController.refresh_token(user)
 
-    access_token = "BQARiPk7fm30-ZRHAhBOwohG0HW6J__WcL4Ht8TTbLAsuEsWEaFcDBxZLJ_Zynl0fHldZ3vXILWc_DVihY_-MnpXzCF2gljoLblCIVpie97GSf-qIsdGlhb0HD7gI9-d86mcjqx_g_Buc9n-ckPMXn3aXngRH6M3gvh_NJ3NyJUfdtsoXfIrEjCtxFJ4dc6ehJZnlfvH0_5D6lQVas0XpT4t3XWy8YaIeLA4C4SZ7rx8BMWNyu82-_UZbPFeqLuazBSbNHNrSl5Gwi8SUPI"
+    access_token = user.access_token
 
-    postHeaders = {
+    post_headers = {
       content_type: :json,
       accept: :json,
       Authorization: "Bearer #{access_token}"
     }
 
+    # Get Party name and description from front end request body
+    event_name = params["event_name"]
+    event_description = params["event_description"]
+
+    post_body = {
+      "name": event_name,
+      "description": event_description,
+      "public": true
+    }
+
+    endpoint = 'https://api.spotify.com/v1/me/playlists'
+
+    # Create a playlist on Spotify
+    spotify_response = RestClient.post(endpoint, post_body.to_json, headers=post_headers)
+
+    # Info on newly created playlist from Spotify
+    playlist = JSON.parse(spotify_response.body)
+
     # Temporary hard coded playlist id
-    new_event = Event.create!(name: event_name, description: event_description, group_id: 1, playlist_id: "3qBswSHe4Hhjux8tpB4qGE")
+    new_event = Event.create!(name: event_name, description: event_description, group_id: 1, playlist_id: playlist["id"], host_id: user.id)
 
     UserEvent.create!(user_id: user.id, event_id: new_event.id)
 
-    spotify_response = RestClient.post('https://api.spotify.com/v1/playlists', postBody.to_json, headers=postHeaders)
-    render json: { event: EventSerializer.new(new_event) }, status: :ok
+    render json: { party: EventSerializer.new(new_event) }, status: :ok
   end
 
   def show
@@ -45,26 +57,49 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def add_song
-    @party = Event.find(params[:id])
 
-    access_token = "BQARiPk7fm30-ZRHAhBOwohG0HW6J__WcL4Ht8TTbLAsuEsWEaFcDBxZLJ_Zynl0fHldZ3vXILWc_DVihY_-MnpXzCF2gljoLblCIVpie97GSf-qIsdGlhb0HD7gI9-d86mcjqx_g_Buc9n-ckPMXn3aXngRH6M3gvh_NJ3NyJUfdtsoXfIrEjCtxFJ4dc6ehJZnlfvH0_5D6lQVas0XpT4t3XWy8YaIeLA4C4SZ7rx8BMWNyu82-_UZbPFeqLuazBSbNHNrSl5Gwi8SUPI"
+    @user = User.find_by(spotify_id: params["spotify_id"])
+
+    # Check if user's access token needs to be refreshed
+    Api::V1::SpotifyApiController.refresh_token(@user)
+
+    # access_token = @user.access_token
+    access_token = "BQB6k1XuejH_JgPoksvOrAiLOZ-weiHSvU0eyZhJUQKUEau6Us5qHALcwXdbR8USxCF2AucLnIWPe-6dWO2sKreIsylDP_KUDqG26LesfbPRjzrdtc_NtlET5j2-mDeMQby6qGAZVTQyfN5lTO8SyNbGO-Pu6VvbJG2DDHgoUrVrdHJvM9lkeLuhJnY1cdtgQOg-p-cgU5ET3M4ufLmUVsU5MYhdExkvH4HFtFFUX_9KyjadcKwTt9Lw5sk-ce2KpWOCINFxz7dblTHiklQ"
 
     header = {
       Authorization: "Bearer #{access_token}"
     }
 
+    # The search query
     url = {
       uris: params["url"]
     }
-    endpoint = "https://api.spotify.com/v1/playlists/#{@party.playlist_id}/tracks?#{url.to_query}"
-    post_response = RestClient.post(endpoint, {}, header)
 
-    render json: @party, status: :ok
+    # Get the active party of the user
+    @party = Event.find(params[:id])
+    playlist_id = @party.playlist_id
+    # playlist_id = "0oGyb8ShBfcdkTkcAtv8uA"
+
+    endpoint = "https://api.spotify.com/v1/playlists/#{playlist_id}/tracks?#{url.to_query}"
+
+    return_status = :ok
+
+    byebug
+
+    begin
+      post_response = RestClient.post(endpoint, {}, header)
+    rescue StandardError => e # Add custom exception for 401 Unauthorized and 403 Forbidden
+      return_status = :unauthorized
+    end
+
+    render json: @party, status: return_status
   end
 
   def search
+    # Find parties that contain the search term in their name as a substring
     @events = Event.where("name like ?", "%#{params["search_term"]}%")
 
+    # Serialize the found parties
     @serializedEvents = @events.map do |event|
       EventSerializer.new(event)
     end
@@ -73,8 +108,11 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def add_user
+    # Find the current user and create a new relationship between the user and the party
     @user = User.find_by(spotify_id: params["spotify_id"])
     UserEvent.find_or_create_by!(user_id: @user.id, event_id: params["party_id"])
+
+    # Find the party and return the updated version to front end
     @party = Event.find(params["party_id"])
     render json: { party: EventSerializer.new(@party) }, status: :ok
   end

@@ -4,7 +4,7 @@ class Api::V1::LoginController < ApplicationController
       client_id: Rails.application.credentials.spotify[:client_id],
       response_type: "code",
       redirect_uri: Rails.application.credentials.spotify[:development][:redirect_uri],
-      scope: "user-read-private",
+      scope: "user-read-private user-read-playback-state playlist-modify-private playlist-modify-public user-read-playback-state user-read-currently-playing user-modify-playback-state",
       show_dialog: true
     }
 

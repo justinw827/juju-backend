@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_02_194309) do
+ActiveRecord::Schema.define(version: 2018_11_08_205640) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(version: 2018_11_02_194309) do
     t.string "refresh_token"
     t.string "external_url"
     t.string "image_url"
+    t.string "host_id"
   end
 
   add_foreign_key "events", "groups"
