@@ -1,4 +1,6 @@
 class Api::V1::UsersController < ApplicationController
+  skip_before_action :authorized, only: [:create]
+
   def create
     # If Spotify returns an error for login, redirect to homepage
     if params[:error]
@@ -46,8 +48,13 @@ class Api::V1::UsersController < ApplicationController
     UserGroup.find_or_create_by(group_id: 1, user_id: @user.id)
 
     spotify_id = @user.spotify_id
-    url = "http://localhost:3001/events/s=#{spotify_id}"
+    url = "http://localhost:3001/home/s=#{spotify_id}"
 
     redirect_to url
+  end
+
+  def profile
+    spotify_id = current_user ? current_user.spotify_id : -1
+    render json: { spotify_id: spotify_id }, status: :accepted
   end
 end

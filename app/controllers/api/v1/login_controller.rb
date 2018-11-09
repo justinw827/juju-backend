@@ -1,4 +1,6 @@
 class Api::V1::LoginController < ApplicationController
+  skip_before_action :authorized
+  
   def login
     query_params = {
       client_id: Rails.application.credentials.spotify[:client_id],
