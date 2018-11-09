@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-  before_action :authorized
+  # before_action :authorized
 
   def auth_header
     request.headers['Authorization'] # Bearer <spotify_id>
