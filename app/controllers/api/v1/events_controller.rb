@@ -64,6 +64,7 @@ class Api::V1::EventsController < ApplicationController
     # playlist_id = "0oGyb8ShBfcdkTkcAtv8uA"
 
     @user = User.find_by(id: @party.host_id)
+    byebug
 
     # Check if user's access token needs to be refreshed
     Api::V1::SpotifyApiController.refresh_token(@user)
@@ -80,9 +81,8 @@ class Api::V1::EventsController < ApplicationController
       uris: params["url"]
     }
 
-
-
     endpoint = "https://api.spotify.com/v1/playlists/#{playlist_id}/tracks?#{url.to_query}"
+
 
     return_status = :ok
 

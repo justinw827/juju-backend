@@ -43,7 +43,8 @@ class Api::V1::UsersController < ApplicationController
     end
 
     # Check if spotify_id from Spotify response exists in db.
-    @user = User.find_or_create_by(spotify_id: user_params["id"], access_token: access_token, refresh_token: refresh_token, external_url: external_url, image_url: image_url)
+    @user = User.find_or_create_by(spotify_id: user_params["id"], external_url: external_url, image_url: image_url)
+    @user.update(access_token: access_token, refresh_token: refresh_token)
 
     UserGroup.find_or_create_by(group_id: 1, user_id: @user.id)
 
