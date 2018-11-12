@@ -64,7 +64,6 @@ class Api::V1::EventsController < ApplicationController
     # playlist_id = "0oGyb8ShBfcdkTkcAtv8uA"
 
     @user = User.find_by(id: @party.host_id)
-    byebug
 
     # Check if user's access token needs to be refreshed
     Api::V1::SpotifyApiController.refresh_token(@user)
