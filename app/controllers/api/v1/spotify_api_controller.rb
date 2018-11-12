@@ -12,8 +12,6 @@ class Api::V1::SpotifyApiController < ApplicationController
         client_secret: Rails.application.credentials.spotify[:client_secret]
       }
 
-      byebug
-
       # Send request to Spotufy and update current_user with new access_token
       auth_response = RestClient.post('https://accounts.spotify.com/api/token', body)
       auth_params = JSON.parse(auth_response)
