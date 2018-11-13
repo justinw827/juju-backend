@@ -43,6 +43,12 @@ class Api::V1::EventsController < ApplicationController
   def show
     @party = Event.find(params[:id])
 
+    byebug
+
+    endpoint = "https://api.spotify.com/v1/playlists/#{@party.playlist_id}"
+
+    RestClient.get(endpoint)
+
     render json: { party: EventSerializer.new(@party) }, status: :ok
   end
 
