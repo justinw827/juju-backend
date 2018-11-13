@@ -40,16 +40,28 @@ class Api::V1::EventsController < ApplicationController
     render json: { party: EventSerializer.new(new_event) }, status: :ok
   end
 
-  def show
-    @party = Event.find(params[:id])
+  def get_party
+    @party = Event.find(params["party_id"])
 
-    byebug
+    @user = User.find_by(spotify_id: params["spotify_id"])
+
+    # Check user token is valid
+    Api::V1::SpotifyApiController.refresh_token(@user)
+
+    access_token = @user.access_token
+
+    headers = {
+      content_type: :json,
+      accept: :json,
+      Authorization: "Bearer #{access_token}"
+    }
 
     endpoint = "https://api.spotify.com/v1/playlists/#{@party.playlist_id}"
+    response = RestClient.get(endpoint, headers)
+    body = JSON.parse(response.body)
+    img_url = body["images"].length > 0 ? body["images"][0]["url"] : "n/a"
 
-    RestClient.get(endpoint)
-
-    render json: { party: EventSerializer.new(@party) }, status: :ok
+    render json: { party: EventSerializer.new(@party), imgUrl: img_url}, status: :ok
   end
 
   def get_all_events
