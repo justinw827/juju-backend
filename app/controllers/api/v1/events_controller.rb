@@ -2,7 +2,6 @@ class Api::V1::EventsController < ApplicationController
   def create
     user = User.find_by(spotify_id: params[:spotify_id])
 
-
     # Check user token is valid
     Api::V1::SpotifyApiController.refresh_token(user)
 

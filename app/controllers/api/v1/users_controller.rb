@@ -69,6 +69,6 @@ class Api::V1::UsersController < ApplicationController
 
     user_response = RestClient.get("https://api.spotify.com/v1/me", header)
     name = JSON.parse(user_response)["display_name"]
-    render json: { user: @user, name: name }, status: :accepted
+    render json: { user: UserSerializer.new(@user), name: name }, status: :accepted
   end
 end
