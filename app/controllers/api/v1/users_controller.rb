@@ -55,7 +55,20 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def profile
-    spotify_id = current_user ? current_user : {}
-    render json: { user: current_user }, status: :accepted
+    # current_user is a method in ApplicationController
+    @user = current_user ? current_user : {}
+
+    # Check if user's access token needs to be refreshed
+    Api::V1::SpotifyApiController.refresh_token(@user)
+
+    access_token = @user.access_token
+
+    header = {
+      Authorization: "Bearer #{access_token}"
+    }
+
+    user_response = RestClient.get("https://api.spotify.com/v1/me", header)
+    name = JSON.parse(user_response)["display_name"]
+    render json: { user: @user, name: name }, status: :accepted
   end
 end
