@@ -66,6 +66,7 @@ class Api::V1::EventsController < ApplicationController
   def get_all_events
     @events = Event.all
 
+    # Serialize all events
     @newEvents = @events.map do |event|
       EventSerializer.new(event)
     end
