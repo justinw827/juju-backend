@@ -49,7 +49,8 @@ class Api::V1::UsersController < ApplicationController
     UserGroup.find_or_create_by(group_id: 1, user_id: @user.id)
 
     spotify_id = @user.spotify_id
-    url = "http://localhost:3001/s=#{spotify_id}"
+    # url = "http://localhost:3001/s=#{spotify_id}"
+    url = "https://juju-music.herokuapp.com/s=#{spotify_id}"
 
     redirect_to url
   end
