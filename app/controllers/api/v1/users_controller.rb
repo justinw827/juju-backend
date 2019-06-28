@@ -5,7 +5,8 @@ class Api::V1::UsersController < ApplicationController
     # If Spotify returns an error for login, redirect to homepage
     if params[:error]
       puts "LOGIN ERROR", params
-      redirect_to "http://localhost:3001/"
+      # redirect_to "http://localhost:3001/"
+      redirect_to "https://juju-music.herokuapp.com/"
     else
       # Request body for post to get access token
       body = {
