@@ -36,3 +36,6 @@ is handled by Spotify, thus a Spotify account is required to run application.
 Full application (front end & back end) allows you to log in with your Spotify account, linking your account with the app. Once logged in, you can create a party, which also creates a Spotify playlist in your account. Other people can join your party and add songs to your playlist, making the playlist a queue of songs. Songs are added to the queue (playlist) by searching for a song in the search bar, and clicking 'Add to Queue', adding the song to the active party's playlist.
 
 ### Demo
+[Video](https://www.youtube.com/watch?v=t55T6SIHUvU&feature=youtu.be)
+
+Live Demo Coming Soon!!!
