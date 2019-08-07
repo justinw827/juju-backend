@@ -1,7 +1,7 @@
 # README
 
 ### Ruby Version:
-- 2.3.3
+- 2.5.1
 
 After cloning the repository, you'll have to
 * Install bundle if you do not have it yet. In your console run
