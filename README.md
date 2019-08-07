@@ -1,12 +1,6 @@
 # README
 
-Imagine you're listening to music with some friends having fun, but then you think of a song you want to play. Now
-you have to bother your friend and ask them to play the song for you. Wouldn't it be nice if you could just queue up
-the song next yourself? Now you can with Juju! One person, the one playing the music, just has to create a party on
-the app, which will create a playlist in your Spotify account. Then just play the music from that playlist, and now
-all your friends can join your party, and add songs from their own devices! No need to bother your friend to play
-a song next. Just search your song through the app, add it to the queue, and your song will be up next! Listening to
-music has never been easier.
+Imagine you're listening to music with some friends having fun, but then you think of a song you want to play. Now you have to bother your friend and ask them to play the song for you. Wouldn't it be nice if you could just queue up the song next yourself? Now you can with Juju! One person, the one playing the music, just has to create a party on the app, which will create a playlist in your Spotify account. Then just play the music from that playlist, and now all your friends can join your party, and add songs from their own devices! No need to bother your friend to play a song next. Just search your song through the app, add it to the queue, and your song will be up next! Listening to music has never been easier.
 
 ### Demo
 [Video](https://www.youtube.com/watch?v=t55T6SIHUvU&feature=youtu.be)
