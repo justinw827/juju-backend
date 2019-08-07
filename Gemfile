@@ -47,3 +47,9 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+# Updated to prevent DoS vulnerability
+gem "actionview", ">= 5.2.2.1"
+
+# Updated to prevent Possible Remote Code Execution Exploit
+gem "railties", ">= 5.2.2.1"
