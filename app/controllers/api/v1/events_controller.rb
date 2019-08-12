@@ -71,7 +71,7 @@ class Api::V1::EventsController < ApplicationController
       EventSerializer.new(event)
     end
 
-    render json: @newEvents, status: :ok
+    render json: @newEvents, status: :ok, root: ''
   end
 
   def add_song
