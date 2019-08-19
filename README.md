@@ -21,7 +21,7 @@ bundle
 ```
 
 ### How to setup the database:
-- First run Postgres on your computer
+- First, ensure Postgres is running on your computer
 - Next in your console run
 ```console
 rails db:create && rails db:migrate
